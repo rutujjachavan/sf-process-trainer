@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 const workflows = {
   Onboarding: [
@@ -31,10 +31,6 @@ function App() {
 
   const steps = workflows[selectedWorkflow];
 
-  const progress = useMemo(() => {
-    return Math.round(((currentStep + 1) / steps.length) * 100);
-  }, [currentStep, steps.length]);
-
   const handleWorkflowChange = (event) => {
     setSelectedWorkflow(event.target.value);
     setCurrentStep(0);
@@ -42,21 +38,13 @@ function App() {
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
-      setCurrentStep((prev) => prev + 1);
-    }
-  };
-
-  const previousStep = () => {
-    if (currentStep > 0) {
-      setCurrentStep((prev) => prev - 1);
+      setCurrentStep(currentStep + 1);
     }
   };
 
   const resetSteps = () => {
     setCurrentStep(0);
   };
-
-  const isLastStep = currentStep === steps.length - 1;
 
   return (
     <div
@@ -102,76 +90,22 @@ function App() {
         </select>
       </div>
 
-      <div style={{ maxWidth: "820px", marginBottom: "20px" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "8px",
-            color: "#cbd5e1",
-            fontSize: "14px",
-          }}
-        >
-          <span>
-            Step {currentStep + 1} of {steps.length}
-          </span>
-          <span>{progress}% complete</span>
-        </div>
-
-        <div
-          style={{
-            width: "100%",
-            height: "12px",
-            backgroundColor: "#1f2937",
-            borderRadius: "999px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              width: `${progress}%`,
-              height: "100%",
-              backgroundColor: "#2563eb",
-              transition: "width 0.3s ease",
-            }}
-          />
-        </div>
-      </div>
-
       <div
         style={{
           display: "flex",
           gap: "12px",
           marginBottom: "24px",
-          flexWrap: "wrap",
         }}
       >
         <button
-          onClick={previousStep}
-          disabled={currentStep === 0}
-          style={{
-            padding: "10px 16px",
-            borderRadius: "8px",
-            border: "none",
-            backgroundColor: currentStep === 0 ? "#475569" : "#334155",
-            color: "white",
-            cursor: currentStep === 0 ? "not-allowed" : "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          Previous
-        </button>
-
-        <button
           onClick={nextStep}
-          disabled={isLastStep}
           style={{
             padding: "10px 16px",
             borderRadius: "8px",
             border: "none",
-            backgroundColor: isLastStep ? "#475569" : "#2563eb",
+            backgroundColor: "#2563eb",
             color: "white",
-            cursor: isLastStep ? "not-allowed" : "pointer",
+            cursor: "pointer",
             fontWeight: "bold",
           }}
         >
@@ -199,7 +133,7 @@ function App() {
           backgroundColor: "#111827",
           padding: "24px",
           borderRadius: "16px",
-          maxWidth: "820px",
+          maxWidth: "800px",
         }}
       >
         <h2 style={{ marginTop: 0 }}>{selectedWorkflow} Workflow</h2>
@@ -209,48 +143,18 @@ function App() {
           const isCurrent = index === currentStep;
 
           return (
-            <div
-              key={step}
-              style={{
-                padding: "16px",
-                marginBottom: "12px",
-                borderRadius: "12px",
-                backgroundColor: isCurrent
-                  ? "#2563eb"
-                  : isCompleted
-                  ? "#16a34a"
-                  : "#1f2937",
-                color: "white",
-                transition: "0.3s ease",
-              }}
-            >
-              <strong>Step {index + 1}:</strong> {step}
-              {isCurrent && (
-                <div style={{ marginTop: "6px", fontSize: "14px", opacity: 0.9 }}>
-                  Current active step
-                </div>
-              )}
-            </div>
-          );
-        })}
+  <div style={{ padding: "20px" }}>
+    <h1>SF Process Trainer</h1>
 
-        {isLastStep && (
-          <div
-            style={{
-              marginTop: "16px",
-              padding: "16px",
-              borderRadius: "12px",
-              backgroundColor: "#14532d",
-              color: "white",
-              fontWeight: "bold",
-            }}
-          >
-            Workflow completed successfully.
-          </div>
-        )}
+    {Object.keys(workflows).map((process) => (
+      <div key={process} style={{ marginBottom: "20px" }}>
+        <h2>{process}</h2>
+        <ul>
+          {workflows[process].map((step, index) => (
+            <li key={index}>{step}</li>
+          ))}
+        </ul>
       </div>
-    </div>
-  );
-}
-
-export default App;
+    ))}
+  </div>
+);
