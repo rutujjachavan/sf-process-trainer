@@ -71,6 +71,7 @@ function App() {
       <h1 style={{ marginBottom: "8px", fontSize: "46px" }}>
         SF Process Trainer
       </h1>
+
       <p style={{ color: "#cbd5e1", marginBottom: "24px" }}>
         Practice common HR workflows step by step
       </p>
@@ -78,10 +79,15 @@ function App() {
       <div style={{ marginBottom: "24px" }}>
         <label
           htmlFor="workflow"
-          style={{ display: "block", marginBottom: "8px", fontWeight: "bold" }}
+          style={{
+            display: "block",
+            marginBottom: "8px",
+            fontWeight: "bold",
+          }}
         >
           Select Workflow
         </label>
+
         <select
           id="workflow"
           value={selectedWorkflow}
@@ -226,7 +232,13 @@ function App() {
             >
               <strong>Step {index + 1}:</strong> {step}
               {isCurrent && (
-                <div style={{ marginTop: "6px", fontSize: "14px", opacity: 0.9 }}>
+                <div
+                  style={{
+                    marginTop: "6px",
+                    fontSize: "14px",
+                    opacity: 0.9,
+                  }}
+                >
                   Current active step
                 </div>
               )}
